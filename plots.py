@@ -12,11 +12,12 @@ import plotly.offline as pyo
 import matplotlib as plt
 
 cf.go_offline()
-threshhold = 4
+threshhold_min_rating = 1
+scaler = 8
 def min_max(series):
     """ Returns the Min-Max normalised values for the average ratings value"""
     max = series.max()
-    new_dseries = series.apply(lambda x: 1 + (((x-threshhold)/(max-threshhold)) * 9))
+    new_dseries = series.apply(lambda x: 1 + (((x - threshhold_min_rating) / (max - threshhold_min_rating)) * 9))
     return new_dseries
 
 
@@ -25,12 +26,12 @@ def norm_series(series):
     pd_series_mean = series.mean(skipna=True)
     max = series.max()
     # print(pd_series_mean)
-    normed = series.apply(lambda x: 6 + ((x-pd_series_mean)/(max-threshhold)) * 9)
+    normed = series.apply(lambda x: scaler + (((x)-pd_series_mean) / (max - threshhold_min_rating)) * 9)
     return normed
 
 
 df = pd.read_csv('big_books_clean.csv')
-filter1 = df['Average_rating'] >= threshhold
+filter1 = df['Average_rating'] >= threshhold_min_rating
 
 min_max_norm = min_max(df['Average_rating'][filter1])
 normalised = norm_series(df['Average_rating'][filter1])
