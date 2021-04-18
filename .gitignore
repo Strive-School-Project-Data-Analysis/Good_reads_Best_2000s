@@ -50,6 +50,7 @@ coverage.xml
 *.py,cover
 .hypothesis/
 .pytest_cache/
+Best Books of the Decade:2000s.html
 
 # Translations
 *.mo
